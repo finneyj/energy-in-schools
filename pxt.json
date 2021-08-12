@@ -1,0 +1,19 @@
+{
+    "name": "banana",
+    "version": "0.0.6",
+    "description": "My banana project",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "banana.cpp"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": false,
+    "installedVersion": "file:../pxt-banana"
+}
