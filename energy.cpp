@@ -83,7 +83,7 @@ EnergyService EnergyService(radioTxRx);
 namespace energy {
 
     int init() {
-
+        return 0;
     }
 
     int stringToNumber(ManagedString input)

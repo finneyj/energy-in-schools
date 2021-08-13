@@ -18,7 +18,7 @@ enum class WeatherLocationType
 namespace weather {
 
     int init() {
-
+        return 0;
     }
 
     //%

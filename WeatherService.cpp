@@ -18,7 +18,7 @@ int WeatherService::setRoomHumidity(ManagedString room, int humidity) {
     return 0;
 }
 
-WeatherServiceForecastNow WeatherService::getForecastNow(ManagedString location) {
+WeatherServiceForecastNow WeatherService::getForecastNow(int locationType, ManagedString location) {
     ManagedString res = radio.get("/weather/" + location + "/forecastNow/");
 
     WeatherServiceForecastNow ret;
@@ -29,7 +29,7 @@ WeatherServiceForecastNow WeatherService::getForecastNow(ManagedString location)
     return ret;
 }
 
-WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(ManagedString location) {
+WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(int locationType, ManagedString location) {
     ManagedString res = radio.get("/weather/" + location + "/forecastTomorrow/");
 
     WeatherServiceForecastTomorrow ret;
@@ -39,12 +39,12 @@ WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(ManagedString
     return ret;
 }
 
-ManagedString WeatherService::getTemperature(ManagedString location) {
+ManagedString WeatherService::getTemperature(int locationType, ManagedString location) {
     ManagedString res = radio.get("/weather/" + location + "/temperature/");
     return PeridoUtil::getString(res, 0);
 }
 
-WeatherServiceWind WeatherService::getWind(ManagedString location) {
+WeatherServiceWind WeatherService::getWind(int locationType, ManagedString location) {
     ManagedString res = radio.get("/weather/" + location + "/wind/");
     WeatherServiceWind ret;
     ret.chill = PeridoUtil::getString(res, 0);

@@ -35,7 +35,7 @@ CarbonService CarbonService(radioTxRx);
 namespace carbon {
 
     int init() {
-
+        return 0;
     }
 
     int stringToNumber(ManagedString input)

@@ -35,10 +35,10 @@ class WeatherService
     int setRoomTemperature(ManagedString room, int temperature);
     int setRoomHumidity(ManagedString room, int humidity);
 
-    WeatherServiceForecastNow getForecastNow(ManagedString location);
-    WeatherServiceForecastTomorrow getForecastTomorrow(ManagedString location);
-    ManagedString getTemperature(ManagedString location);
-    WeatherServiceWind getWind(ManagedString location);
+    WeatherServiceForecastNow getForecastNow(int locationType, ManagedString location);
+    WeatherServiceForecastTomorrow getForecastTomorrow(int locationType, ManagedString location);
+    ManagedString getTemperature(int locationType, ManagedString location);
+    WeatherServiceWind getWind(int locationType, ManagedString location);
 };
 
 #endif
