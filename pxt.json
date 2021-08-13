@@ -1,12 +1,15 @@
 {
     "name": "energy-in-schools",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Energy in Schools",
     "license": "MIT",
     "dependencies": {
         "core": "*"
     },
     "files": [
+        "carbon.ts",
+        "energy.ts",
+        "weather.ts",
         "carbon.cpp",
         "CarbonService.cpp",
         "CarbonService.h",
@@ -17,7 +20,6 @@
         "InitService.h",
         "IssService.cpp",
         "IssService.h",
-        "main.ts",
         "PeridoBridge.cpp",
         "PeridoBridge.h",
         "PeridoFrag.cpp",
