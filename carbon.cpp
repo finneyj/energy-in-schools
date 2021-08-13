@@ -28,13 +28,19 @@ static const char* const carbonIndexValueTypes[] = {"very_low","low","moderate",
 * share
 * use
 */
-PeridoRESTClient radioTxRx(uBit.radio, uBit.messageBus, uBit.serial);
-CarbonService CarbonService(radioTxRx);
+PeridoRESTClient *radioTxRx = NULL;
+CarbonService *carbonService = NULL;
 
 //% color=#000000 weight=100 icon="\uf216" block="Carbon"
 namespace carbon {
 
     int init() {
+        if (radioTxRx == NULL)
+            radioTxRx = new PeridoRESTClient(uBit.radio, uBit.messageBus, uBit.serial);
+
+        if (carbonService == NULL)
+            carbonService = new CarbonService(*radioTxRx);    
+
         return 0;
     }
 
@@ -71,7 +77,7 @@ namespace carbon {
     int queryCarbonValue()
     {
         init();
-        ManagedString reply = CarbonService.getCarbonValue("value");
+        ManagedString reply = carbonService->getCarbonValue("value");
         int value = stringToNumber(reply);
         return value;
     }
@@ -84,7 +90,7 @@ namespace carbon {
     {
         init();
 
-        ManagedString reply = CarbonService.getCarbonIndex("index");
+        ManagedString reply = carbonService->getCarbonIndex("index");
 
         int replyValue = -1;
 
@@ -106,7 +112,7 @@ namespace carbon {
     {
         init();
 
-        ManagedString reply = CarbonService.getCarbonIndex("index");
+        ManagedString reply = carbonService->getCarbonIndex("index");
         return PSTR(reply);
     }
 
@@ -128,7 +134,7 @@ namespace carbon {
         ManagedString command = "genmix/";
         command = command + generationTypes[(int)mix];
         
-        ManagedString reply = CarbonService.getCarbonGenerationMix(command);
+        ManagedString reply = carbonService->getCarbonGenerationMix(command);
         int value = stringToNumber(reply);
         return value;
     }

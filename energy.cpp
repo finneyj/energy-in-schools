@@ -77,13 +77,20 @@ enum class MonthType{
 * share
 * use
 */
-extern PeridoRESTClient radioTxRx;
-EnergyService EnergyService(radioTxRx);
+
+extern PeridoRESTClient *radioTxRx;
+EnergyService *energyService = NULL;
 
 //% color=#006f00 weight=100 icon="\uf275" block="School Energy"
 namespace energy {
 
     int init() {
+        if (radioTxRx == NULL)
+            radioTxRx = new PeridoRESTClient(uBit.radio, uBit.messageBus, uBit.serial);
+
+        if (energyService == NULL)
+            energyService = new EnergyService(*radioTxRx);
+
         return 0;
     }
 
@@ -156,7 +163,7 @@ namespace energy {
 
         ManagedString command = "nrgLvl/";
 
-        char eType[5];
+        char eType[20];
         memset(eType,0,sizeof(eType));
         sprintf(eType,"%d",(int)energyType);
 
@@ -176,7 +183,7 @@ namespace energy {
             command = command + historicData;
         }
 
-        ManagedString reply = EnergyService.getEnergyLevel(command);
+        ManagedString reply = energyService->getEnergyLevel(command);
         return reply.leakData();
     }
 
@@ -192,7 +199,7 @@ namespace energy {
     //%
     int queryEnergyHour(EnergyType energyType, HourType hourType, String schoolId)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"hour/%d", (int)hourType);
         ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
@@ -203,7 +210,7 @@ namespace energy {
     //%
     int queryEnergyDay(EnergyType energyType, DayType dayType, String schoolId)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"day/%d", (int)dayType);
         ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
@@ -214,7 +221,7 @@ namespace energy {
     //%
     int queryEnergyWeek(EnergyType energyType, WeekType weekType, String schoolId)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"week/%d", (int)weekType);
         ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
@@ -225,7 +232,7 @@ namespace energy {
     //%
     int queryEnergyMonth(EnergyType energyType, MonthType monthType, String schoolId)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"month/%d", (int)monthType);
         ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
@@ -246,7 +253,7 @@ namespace energy {
     //%
     int querySchoolEnergyDay(EnergyType energyType, DayType dayType)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"day/%d", (int)dayType);
         ManagedString result = queryEnergyText(energyType, ManagedString("local"), ManagedString(buffer));
@@ -257,7 +264,7 @@ namespace energy {
     //%
     int querySchoolEnergyHour(EnergyType energyType, HourType hourType)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"hour/%d", (int)hourType);
         ManagedString result = queryEnergyText(energyType, ManagedString("local"), ManagedString(buffer));
@@ -268,7 +275,7 @@ namespace energy {
     //%
     int querySchoolEnergyWeek(EnergyType energyType, WeekType weekType)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"week/%d", (int)weekType);
         ManagedString result = queryEnergyText(energyType, ManagedString("local"), ManagedString(buffer));
@@ -279,7 +286,7 @@ namespace energy {
     //%
     int querySchoolEnergyMonth(EnergyType energyType, MonthType monthType)
     {
-        char buffer[6];
+        char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"month/%d", (int)monthType);
         ManagedString result = queryEnergyText(energyType, ManagedString("local"), ManagedString(buffer));
