@@ -1,8 +1,6 @@
 #ifndef PERIDO_UTIL_H
 #define PERIDO_UTIL_H
 
-#define MICROBIT_CODAL 1
-
 #include "MicroBitRadio.h"
 #include "MicroBitSerial.h"
 #include "MicroBitEvent.h"

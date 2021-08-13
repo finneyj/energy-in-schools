@@ -1,15 +1,36 @@
 {
-    "name": "banana",
-    "version": "0.0.6",
-    "description": "My banana project",
+    "name": "energy-in-schools",
+    "version": "0.0.1",
+    "description": "Energy in Schools",
     "license": "MIT",
     "dependencies": {
         "core": "*"
     },
     "files": [
-        "README.md",
+        "carbon.cpp",
+        "CarbonService.cpp",
+        "CarbonService.h",
+        "energy.cpp",
+        "EnergyService.cpp",
+        "EnergyService.h",
+        "InitService.cpp",
+        "InitService.h",
+        "IssService.cpp",
+        "IssService.h",
         "main.ts",
-        "banana.cpp"
+        "PeridoBridge.cpp",
+        "PeridoBridge.h",
+        "PeridoFrag.cpp",
+        "PeridoFrag.h",
+        "PeridoRESTClient.cpp",
+        "PeridoRESTClient.h",
+        "PeridoUtil.cpp",
+        "PeridoUtil.h",
+        "README.md",
+        "tsconfig.json",
+        "weather.cpp",
+        "WeatherService.cpp",
+        "WeatherService.h"
     ],
     "testFiles": [
         "test.ts"
