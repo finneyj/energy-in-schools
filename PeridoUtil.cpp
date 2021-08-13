@@ -109,3 +109,101 @@ float PeridoUtil::getFloat(PacketBuffer b, int index)
 
     return res;
 }
+
+int PeridoUtil::getLength(ManagedString b)
+{
+    uint8_t* payloadPtr = (uint8_t *) b.toCharArray() + 5;
+    uint8_t* payloadEnd = (uint8_t *) b.toCharArray() + b.length();
+
+    while(1)
+    {
+        if (payloadPtr >= payloadEnd)
+            return payloadEnd - (uint8_t *)b.toCharArray();
+
+        uint8_t subtype = *payloadPtr++;
+
+        if (subtype & SUBTYPE_STRING)
+            while(*payloadPtr++ != 0);
+
+        if (subtype & SUBTYPE_INT)
+            payloadPtr += sizeof(int);
+
+        if (subtype & SUBTYPE_FLOAT)
+            payloadPtr += sizeof(float);
+
+        if ((*payloadPtr & (SUBTYPE_STRING | SUBTYPE_INT | SUBTYPE_FLOAT)) == 0)
+            break;
+    }
+
+    return payloadPtr - (uint8_t *)b.toCharArray();
+}
+
+uint8_t* PeridoUtil::getPointerToIndex(ManagedString b, int index)
+{
+    uint8_t* payloadPtr = (uint8_t *) b.toCharArray() + 5;
+    uint8_t* payloadEnd = (uint8_t *) b.toCharArray() + b.length();
+
+    for (int i = 0; i < index; i++)
+    {
+        if (payloadPtr >= payloadEnd)
+            return NULL;
+
+        uint8_t subtype = *payloadPtr++;
+
+        if (subtype & SUBTYPE_STRING)
+            while(*payloadPtr++ != 0);
+
+        if (subtype & SUBTYPE_INT)
+            payloadPtr += sizeof(int);
+
+        if (subtype & SUBTYPE_FLOAT)
+            payloadPtr += sizeof(float);
+    }
+
+    return payloadPtr;
+}
+
+ManagedString PeridoUtil::getString(ManagedString b, int index)
+{
+    uint8_t *data = getPointerToIndex(b, index);
+
+    if (data == NULL || !(*data & SUBTYPE_STRING))
+        return ManagedString();
+
+    // move past subtype byte
+    data++;
+
+    return ManagedString((char*)data);
+}
+
+int PeridoUtil::getInteger(ManagedString b, int index)
+{
+    uint8_t *data = getPointerToIndex(b, index);
+
+    if (data == NULL || !(*data & SUBTYPE_INT))
+        return MICROBIT_INVALID_PARAMETER;
+
+    // move past subtype byte
+    data++;
+
+    int res;
+    memcpy(&res, data, sizeof(int));
+
+    return res;
+}
+
+float PeridoUtil::getFloat(ManagedString b, int index)
+{
+    uint8_t *data = getPointerToIndex(b, index);
+
+    if (data == NULL || !(*data & SUBTYPE_FLOAT))
+        return MICROBIT_INVALID_PARAMETER;
+
+    // move past subtype byte
+    data++;
+
+    float res;
+    memcpy(&res, data, sizeof(float));
+
+    return res;
+}

@@ -1,7 +1,7 @@
 #ifndef PERIDO_UTIL_H
 #define PERIDO_UTIL_H
 
-#define MICROBIT_CODAL 0
+#define MICROBIT_CODAL 1
 
 #include "MicroBitRadio.h"
 #include "MicroBitSerial.h"
@@ -47,6 +47,14 @@ class PeridoUtil
     static ManagedString getString(PacketBuffer b, int index);
     static int getInteger(PacketBuffer b, int index);
     static float getFloat(PacketBuffer b, int index);
+
+    static int getLength(ManagedString b);
+    static uint8_t* getPointerToIndex(ManagedString b, int index);
+    static ManagedString getString(ManagedString b, int index);
+    static int getInteger(ManagedString b, int index);
+    static float getFloat(ManagedString b, int index);
+
+
 };
 
 #endif

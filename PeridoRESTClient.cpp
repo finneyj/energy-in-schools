@@ -10,6 +10,9 @@ using namespace codal;
 void PeridoRESTClient::onRadioPacket(MicroBitEvent)
 {
     serial.printf("FRAME RECEIVED:\n");
+
+    if (!enabled)
+        return;
     
     radioTxRx.recv();
     
@@ -24,16 +27,28 @@ void PeridoRESTClient::onRadioPacket(MicroBitEvent)
     }
 }
 
+void PeridoRESTClient::enable()
+{
+    if (!enabled)
+    {
+        radio.enable();
+        enabled = true;
+    }
+}
+
 PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b, NRF52Serial &s) : radio(r), radioTxRx(r), serial(s)
 {
+    enabled = false;
+
     // Attach event listeners to radio and serial interfaces
     b.listen(MICROBIT_ID_RADIO, MICROBIT_RADIO_EVT_DATAGRAM, this, &PeridoRESTClient::onRadioPacket);
-    radio.enable();
 }
 
 ManagedString PeridoRESTClient::get(ManagedString request)
 {
     mutex.wait();
+
+    enable();
 
     PacketBuffer p(request.length() + 7);
     PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &p[0];

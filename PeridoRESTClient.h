@@ -18,12 +18,14 @@ class PeridoRESTClient
     uint16_t request_id;
     bool awaitingResponse;
     PacketBuffer response;
+    bool enabled;
 
     public:
 
     PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b, NRF52Serial &s);
     ManagedString get(ManagedString request);
     void onRadioPacket(MicroBitEvent);
+    void enable();
 };
 
 #endif
