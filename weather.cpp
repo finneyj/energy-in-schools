@@ -33,7 +33,7 @@ namespace weather {
     String getWindDirection(WeatherLocationType locationType, String location)
     {
         init();
-        ManagedString w = weatherService.getWind((int)locationType), MSTR(location));
+        ManagedString w = weatherService.getWind((int)locationType, MSTR(location));
         return PSTR(w);
     }
 
@@ -41,7 +41,7 @@ namespace weather {
     String getWeatherForecast(WeatherLocationType locationType, String location)
     {
         init();
-        ManagedString w = weatherService.getForecastNow((int)locationType), MSTR(location));
+        ManagedString w = weatherService.getForecastNow((int)locationType, MSTR(location));
         return PSTR(w);
     }
 
@@ -49,7 +49,7 @@ namespace weather {
     String getWeatherForecastTomorrow(WeatherLocationType locationType, String location)
     {
         init();
-        ManagedString w = weatherService.getForecastTomorrow((int)locationType), MSTR(location));
+        ManagedString w = weatherService.getForecastTomorrow((int)locationType, MSTR(location));
         return PSTR(w);
     }
 }
