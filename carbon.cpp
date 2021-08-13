@@ -28,7 +28,7 @@ static const char* const carbonIndexValueTypes[] = {"very_low","low","moderate",
 * share
 * use
 */
-PeridoRESTClient radioTxRx(uBit.radio);
+PeridoRESTClient radioTxRx(uBit.radio, uBit.messageBus, uBit.serial);
 CarbonService CarbonService(radioTxRx);
 
 //% color=#000000 weight=100 icon="\uf216" block="Carbon"
