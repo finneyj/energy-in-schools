@@ -31,7 +31,7 @@ class PeridoBridge : public MicroBitComponent
     uint32_t packetCount;
 
     void sendHelloPacket();
-    void handleHelloPacket(ManagedBuffer b);
+    void handleHelloPacket(PacketBuffer b);
     void sendSerialPacket(PacketBuffer b);
     void onRadioPacket(MicroBitEvent e);
     void onSerialPacket(MicroBitEvent e);

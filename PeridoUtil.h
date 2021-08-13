@@ -36,11 +36,11 @@ struct PeridoBridgeSerialPacket
 class PeridoUtil
 {
     public:
-    static int getLength(ManagedBuffer b);
-    static uint8_t* getPointerToIndex(ManagedBuffer b, int index);
-    static ManagedString getString(ManagedBuffer b, int index);
-    static int getInteger(ManagedBuffer b, int index);
-    static float getFloat(ManagedBuffer b, int index);
+    static int getLength(PacketBuffer b);
+    static uint8_t* getPointerToIndex(PacketBuffer b, int index);
+    static ManagedString getString(PacketBuffer b, int index);
+    static int getInteger(PacketBuffer b, int index);
+    static float getFloat(PacketBuffer b, int index);
 };
 
 #endif

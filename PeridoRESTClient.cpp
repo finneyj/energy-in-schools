@@ -34,7 +34,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
 {
     mutex.wait();
 
-    ManagedBuffer p(request.length() + 7);
+    PacketBuffer p(request.length() + 7);
     PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &p[0];
     request_id = microbit_random(65535);
 
@@ -55,7 +55,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     {
         if (t == 0)
         {
-            radioTxRx.send(p);
+            radioTxRx.send(p, p.length());
             DMESGF("PACKET SENT:");
             for (int i=0; i<p.length(); i++)
                 DMESGN("%x ", p[i]);

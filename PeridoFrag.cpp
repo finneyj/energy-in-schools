@@ -19,33 +19,32 @@ void PeridoFrag::reset()
     packet = PacketBuffer::EmptyPacket;
 }
 
-void PeridoFrag::send(ManagedBuffer p) 
+void PeridoFrag::send(PacketBuffer p, int len) 
 {
     // Fast path for short frames
-    if (p.length() <= MICROBIT_RADIO_MAX_PACKET_SIZE)
+    if (len <= MICROBIT_RADIO_MAX_PACKET_SIZE)
     {
         p[0] |= 0x80;
-        radio.datagram.send(p);
+        radio.datagram.send(&p[0], len);
         return;
     }
 
     uint8_t frag = 0;
     uint8_t *data = &p[4];
-    uint8_t *end = &p[0] + p.length();
+    uint8_t *end = &p[0] + len;
 
-    ManagedBuffer fragment(MICROBIT_RADIO_MAX_PACKET_SIZE);
+    PacketBuffer fragment(MICROBIT_RADIO_MAX_PACKET_SIZE);
     memcpy(&fragment[0], &p[0], 4);
 
     while (data < end)
     {
         int toSend = min(end-data, MICROBIT_RADIO_MAX_PACKET_SIZE);
         memcpy(&fragment[4], data, toSend);
-        fragment.truncate(toSend);
 
         data += toSend;
 
         fragment[0] = frag | (data == end ? 0x80 : 0x00);
-        radio.datagram.send(fragment);
+        radio.datagram.send(&fragment[0], toSend);
 
         frag++;
     }

@@ -17,7 +17,7 @@ class PeridoFrag
 
     public:
     PeridoFrag(MicroBitRadio& r);
-    void send(ManagedBuffer p);
+    void send(PacketBuffer p, int len);
     void recv();
 
     PacketBuffer getPacket();

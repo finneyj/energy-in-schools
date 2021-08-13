@@ -9,7 +9,7 @@
 
 using namespace codal;
 
-int PeridoUtil::getLength(ManagedBuffer b)
+int PeridoUtil::getLength(PacketBuffer b)
 {
     uint8_t* payloadPtr = &b[5];
     uint8_t* payloadEnd = &b[b.length()];
@@ -37,7 +37,7 @@ int PeridoUtil::getLength(ManagedBuffer b)
     return payloadPtr - &b[0];
 }
 
-uint8_t* PeridoUtil::getPointerToIndex(ManagedBuffer b, int index)
+uint8_t* PeridoUtil::getPointerToIndex(PacketBuffer b, int index)
 {
     uint8_t* payloadPtr = &b[5];
     uint8_t* payloadEnd = &b[b.length()];
@@ -62,7 +62,7 @@ uint8_t* PeridoUtil::getPointerToIndex(ManagedBuffer b, int index)
     return payloadPtr;
 }
 
-ManagedString PeridoUtil::getString(ManagedBuffer b, int index)
+ManagedString PeridoUtil::getString(PacketBuffer b, int index)
 {
     uint8_t *data = getPointerToIndex(b, index);
 
@@ -75,7 +75,7 @@ ManagedString PeridoUtil::getString(ManagedBuffer b, int index)
     return ManagedString((char*)data);
 }
 
-int PeridoUtil::getInteger(ManagedBuffer b, int index)
+int PeridoUtil::getInteger(PacketBuffer b, int index)
 {
     uint8_t *data = getPointerToIndex(b, index);
 
@@ -91,7 +91,7 @@ int PeridoUtil::getInteger(ManagedBuffer b, int index)
     return res;
 }
 
-float PeridoUtil::getFloat(ManagedBuffer b, int index)
+float PeridoUtil::getFloat(PacketBuffer b, int index)
 {
     uint8_t *data = getPointerToIndex(b, index);
 

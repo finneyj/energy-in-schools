@@ -40,7 +40,7 @@ void PeridoBridge::sendHelloPacket()
     sendSerialPacket(b);
 }
 
-void PeridoBridge::handleHelloPacket(ManagedBuffer b)
+void PeridoBridge::handleHelloPacket(PacketBuffer b)
 {
     uint32_t status;
     memcpy(&status, &b[5], 4);
@@ -145,7 +145,7 @@ void PeridoBridge::onRadioPacket(MicroBitEvent)
 
 void PeridoBridge::onSerialPacket(MicroBitEvent)
 {
-    ManagedBuffer b(sizeof(PeridoBridgeSerialPacket));
+    PacketBuffer b(sizeof(PeridoBridgeSerialPacket));
     uint16_t len = 0;
     char c = 0;
 
@@ -181,12 +181,10 @@ void PeridoBridge::onSerialPacket(MicroBitEvent)
     if (len > MICROBIT_RADIO_MAX_PACKET_SIZE)
         len = MICROBIT_RADIO_MAX_PACKET_SIZE;
 
-    b.truncate(len);
-
     if (b[4] == REQUEST_TYPE_HELLO)
         handleHelloPacket(b);
     else
-        radioTxRx.send(b);
+        radioTxRx.send(b, len);
 }
 
 void PeridoBridge::enable()
