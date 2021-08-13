@@ -1,7 +1,9 @@
 #include "MicroBitConfig.h"
 #include "PeridoFrag.h"
 
+#if MICROBIT_CODAL
 using namespace codal;
+#endif
 
 PeridoFrag::PeridoFrag(MicroBitRadio& r) : radio(r)
 {

@@ -8,7 +8,9 @@
 #define SLIP_ESC_END            0xDC
 #define SLIP_ESC_ESC            0xDD
 
+#if MICROBIT_CODAL
 using namespace codal;
+#endif
 
 const char* SCHOOL_ID = "820CA";
 const char* HUB_ID = "SyHbe";

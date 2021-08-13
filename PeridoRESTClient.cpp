@@ -3,8 +3,9 @@
 #include "PeridoRESTClient.h"
 #include "MicroBitDevice.h"
 
+#if MICROBIT_CODAL
 using namespace codal;
-
+#endif
 
 void PeridoRESTClient::onRadioPacket(MicroBitEvent)
 {

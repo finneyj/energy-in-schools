@@ -3,6 +3,12 @@
 
 #include "PeridoBridge.h"
 
+#if !MICROBIT_CODAL
+#include "MicroBitFiber.h"
+#include "MicroBitLock.h"
+typedef MicroBitLock FiberLock;
+#endif
+
 class PeridoRESTClient
 {
     FiberLock mutex;
