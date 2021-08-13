@@ -8,7 +8,7 @@ using namespace codal;
 
 void PeridoRESTClient::onRadioPacket(MicroBitEvent)
 {
-    DMESG("FRAME RECEIVED:");
+    serial.printf("FRAME RECEIVED:\n");
     
     radioTxRx.recv();
     
@@ -16,14 +16,14 @@ void PeridoRESTClient::onRadioPacket(MicroBitEvent)
     {
         PacketBuffer b = radioTxRx.getPacket();
     
-        DMESG("PACKET RECEIVED:");
+        serial.printf("PACKET RECEIVED: ");
         for (int i=0; i<b.length(); i++)
-            DMESGN("%x ",b[i]);
-        DMESG("");
+            serial.printf("%x ",b[i]);
+        serial.printf("\n");
     }
 }
 
-PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b) : radio(r), radioTxRx(r)
+PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b, NRF52Serial &s) : radio(r), radioTxRx(r), serial(s)
 {
     // Attach event listeners to radio and serial interfaces
     b.listen(MICROBIT_ID_RADIO, MICROBIT_RADIO_EVT_DATAGRAM, this, &PeridoRESTClient::onRadioPacket);
@@ -56,10 +56,10 @@ ManagedString PeridoRESTClient::get(ManagedString request)
         if (t == 0)
         {
             radioTxRx.send(p, p.length());
-            DMESGF("PACKET SENT:");
+            serial.printf("PACKET SENT: ");
             for (int i=0; i<p.length(); i++)
-                DMESGN("%x ", p[i]);
-            DMESG("");
+                serial.printf("%x ", p[i]);
+            serial.printf("\n");
         }
 
         fiber_sleep(quantum);
@@ -69,7 +69,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
             t = 0;
     }
 
-    DMESG("RESPONSE RECEIVED");
+    serial.printf("RESPONSE RECEIVED\n");
     mutex.notify();
 
     return "BOO";
