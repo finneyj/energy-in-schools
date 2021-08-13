@@ -6,12 +6,14 @@
 #if !MICROBIT_CODAL
 #include "MicroBitFiber.h"
 #include "MicroBitLock.h"
-typedef MicroBitLock FiberLock;
+#define MICROBIT_LOCK_TYPE MicroBitLock
+#else
+#define MICROBIT_LOCK_TYPE FiberLock
 #endif
 
 class PeridoRESTClient
 {
-    FiberLock mutex;
+    MICROBIT_LOCK_TYPE mutex;
     MicroBitRadio &radio;
     PeridoFrag radioTxRx;
     NRF52Serial &serial;
@@ -22,7 +24,7 @@ class PeridoRESTClient
 
     public:
 
-    PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b, NRF52Serial &s);
+    PeridoRESTClient(MicroBitRadio& r, MICROBIT_MESSAGE_BUS_TYPE& b, NRF52Serial &s);
     ManagedString get(ManagedString request);
     void onRadioPacket(MicroBitEvent);
     void enable();

@@ -206,7 +206,7 @@ void PeridoBridge::enable()
     sendHelloPacket();
 }
 
-PeridoBridge::PeridoBridge(MicroBitRadio& r, NRF52Serial& s, MicroBitMessageBus& b, MicroBitDisplay& display) : radio(r), radioTxRx(r), serial(s), display(display)
+PeridoBridge::PeridoBridge(MicroBitRadio& r, NRF52Serial& s, MICROBIT_MESSAGE_BUS_TYPE& b, MicroBitDisplay& display) : radio(r), radioTxRx(r), serial(s), display(display)
 {
     this->packetCount = 0;
     this->status = 0;

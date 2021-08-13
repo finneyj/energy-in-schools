@@ -1,5 +1,6 @@
 #include "pxt.h"
 #include "EnergyService.h"
+#include "stdio.h"
 
 enum class EnergyType{
     electricity = 0,

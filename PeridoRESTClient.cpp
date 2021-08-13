@@ -36,7 +36,7 @@ void PeridoRESTClient::enable()
     }
 }
 
-PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MicroBitMessageBus& b, NRF52Serial &s) : radio(r), radioTxRx(r), serial(s)
+PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MICROBIT_MESSAGE_BUS_TYPE& b, NRF52Serial &s) : radio(r), radioTxRx(r), serial(s)
 {
     enabled = false;
 

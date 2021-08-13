@@ -1,12 +1,12 @@
 #ifndef PERIDO_BRIDGE_H
 #define PERIDO_BRIDGE_H
 
+#include "pxt.h"
 #include "MicroBitRadio.h"
 #include "MicroBitSerial.h"
 #include "MicroBitEvent.h"
 #include "MicroBitDisplay.h"
 #include "MicroBitComponent.h"
-#include "MicroBitMessageBus.h"
 #include "PeridoUtil.h"
 #include "PeridoFrag.h"
 
@@ -38,7 +38,7 @@ class PeridoBridge : public MicroBitComponent
 
     public:
 
-    PeridoBridge(MicroBitRadio& r, NRF52Serial& s, MicroBitMessageBus& b, MicroBitDisplay& display);
+    PeridoBridge(MicroBitRadio& r, NRF52Serial& s, MICROBIT_MESSAGE_BUS_TYPE& b, MicroBitDisplay& display);
 
     void enable();
 };

@@ -1,15 +1,24 @@
 #ifndef PERIDO_UTIL_H
 #define PERIDO_UTIL_H
 
+#include "pxt.h"
 #include "MicroBitRadio.h"
 #include "MicroBitSerial.h"
 #include "MicroBitEvent.h"
 #include "MicroBitDisplay.h"
 #include "MicroBitComponent.h"
-#include "MicroBitMessageBus.h"
 
 #if !MICROBIT_CODAL
+
+#include "MicroBitMessageBus.h"
 typedef MicroBitSerial NRF52Serial;
+#define MICROBIT_MESSAGE_BUS_TYPE MicroBitMessageBus
+
+#else
+
+#include "MessageBus.h"
+#define MICROBIT_MESSAGE_BUS_TYPE MessageBus
+
 #endif
 
 #define REQUEST_TYPE_GET_REQUEST            0x01
