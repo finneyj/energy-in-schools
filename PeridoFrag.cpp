@@ -30,10 +30,6 @@ void PeridoFrag::send(PacketBuffer p, int len)
     {
         p[0] |= 0x80;
         radio.datagram.send(&p[0], len);
-        DMESG("FAST PATH FRAGMENT SENT: ");
-        for (int i=0; i<p.length(); i++)
-            DMESGN("%x ", p[i]);
-        DMESGN("\n");
         return;
     }
 
@@ -54,11 +50,6 @@ void PeridoFrag::send(PacketBuffer p, int len)
         fragment[0] = frag | (data == end ? 0x80 : 0x00);
         radio.datagram.send(&fragment[0], toSend+4);
 
-        DMESG("FRAGMENT SENT: ");
-        for (int i=0; i<toSend+4; i++)
-            DMESGN("%c ", fragment[i]);
-        DMESGN("\n");
-
         frag++;
     }
 }
@@ -78,27 +69,18 @@ void PeridoFrag::recv()
     pkt->app_id = 0;
     pkt->namespace_id = 0;
 
-    DMESG("\nFRAGMENT RECEIVED: [FRAG:%d|%d][LAST:%d] [ID:%d|%d]", frag, count, (int)last, pkt->request_id, request_id);
-    DMESG("FRAGMENT: ");
-    for (int i=0; i<b.length(); i++)
-        DMESGN("%c ", b[i]);
-    DMESGN("\n");
-
     if (pkt->request_id != request_id || count >= PERIDO_MAX_FRAGMENTS || frag != count)
     {
-        DMESG("RESETTING");
         reset();
         request_id = pkt->request_id;
     }
 
     if (frag == count)
     {
-        DMESG("STORING [FRAG: %d] [PAYLOAD: %c ... %c]", frag, b[4], b[b.length()-1]);
         fragment[count++] = b;
 
         if (last)
         {
-            DMESG("REASSEMBLING");
             // Calculate final size of the packet and allocate.
             int len = 4;
 
