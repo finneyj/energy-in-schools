@@ -1,6 +1,6 @@
 {
     "name": "energy-in-schools",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Energy in Schools",
     "license": "MIT",
     "dependencies": {
@@ -12,6 +12,7 @@
         "carbon.ts",
         "energy.ts",
         "weather.ts",
+        "power-meter.ts",
         "carbon.cpp",
         "CarbonService.cpp",
         "CarbonService.h",
