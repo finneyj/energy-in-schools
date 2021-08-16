@@ -24,6 +24,14 @@ void PeridoRESTClient::onRadioPacket(MicroBitEvent)
         for (int i=0; i<b.length(); i++)
             serial.printf("%x ",b[i]);
         serial.printf("\n");
+
+        // If the request_id matches and outstanding request, process it.
+        PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &b[0];
+        if (awaitingResponse && pkt->request_id == request_id)
+        {
+            response = ManagedString((const char *)&b[0], b.length());
+            awaitingResponse = false;
+        }
     }
 }
 
@@ -88,5 +96,5 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     serial.printf("RESPONSE RECEIVED\n");
     mutex.notify();
 
-    return "BOO";
+    return response;
 }

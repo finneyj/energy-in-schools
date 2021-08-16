@@ -19,7 +19,7 @@ class PeridoRESTClient
     NRF52Serial &serial;
     uint16_t request_id;
     bool awaitingResponse;
-    PacketBuffer response;
+    ManagedString response;
     bool enabled;
 
     public:
