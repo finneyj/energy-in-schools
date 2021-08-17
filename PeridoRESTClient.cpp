@@ -61,7 +61,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     enable();
 
     // State variables
-    int timeout = 20000+microbit_random(500);
+    int timeout = 2500+microbit_random(500);
     int quantum = 100;
     int t = 0;
 
