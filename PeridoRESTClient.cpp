@@ -9,8 +9,6 @@ using namespace codal;
 
 void PeridoRESTClient::onRadioPacket(MicroBitEvent)
 {
-    serial.printf("FRAME RECEIVED:\n");
-
     if (!enabled)
         return;
     
@@ -20,11 +18,6 @@ void PeridoRESTClient::onRadioPacket(MicroBitEvent)
     {
         PacketBuffer b = radioTxRx.getPacket();
     
-        serial.printf("PACKET RECEIVED: ");
-        for (int i=0; i<b.length(); i++)
-            serial.printf("%x ",b[i]);
-        serial.printf("\n");
-
         // If the request_id matches and outstanding request, process it.
         PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &b[0];
         if (awaitingResponse && pkt->request_id == request_id)
@@ -74,10 +67,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
 
     // Perform some rate limiting, in case kids busy loop...
     while(system_timer_current_time() < nextTx)
-    {
-        serial.printf("RL...");
         fiber_sleep(100+microbit_random(quantum));
-    }
 
     PacketBuffer p(request.length() + 7);
     PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &p[0];
@@ -95,13 +85,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     while(awaitingResponse)
     {
         if (t == 0)
-        {
             radioTxRx.send(p, p.length());
-            serial.printf("PACKET SENT: ");
-            for (int i=0; i<p.length(); i++)
-                serial.printf("%x ", p[i]);
-            serial.printf("\n");
-        }
 
         fiber_sleep(quantum);
         t+= quantum;
@@ -111,7 +95,6 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     }
 
     nextTx = system_timer_current_time() + PERIDO_REST_RATE_LIMIT;
-    serial.printf("RESPONSE RECEIVED: %s\n", response.toCharArray());
     mutex.notify();
 
     return response;
