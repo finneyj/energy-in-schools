@@ -131,17 +131,8 @@ namespace energy {
         return reply.leakData();
     }
 
-
     //%
-    int querySchoolEnergy(EnergyType energyType)
-    {
-        ManagedString result = queryEnergyText(energyType, ManagedString("local"), "");
-        int value = stringToNumber(result);
-        return value;
-    }
-
-    //%
-    int querySchoolEnergyFor(EnergyType energyType, String schoolId)
+    int querySchoolEnergyFor(String schoolId, EnergyType energyType)
     {
         ManagedString result = queryEnergyText(energyType,MSTR(schoolId),"");
         int value = stringToNumber(result);
@@ -150,13 +141,13 @@ namespace energy {
     }
 
     //%
-    int querySchoolEnergyAgo(EnergyType energyType, int units, TimeType period)
+    int querySchoolEnergyAgo(String schoolId, EnergyType energyType, int units, TimeType period)
     {
         char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"%s/%d", TimeTypeNames[(int)period], units);
 
-        ManagedString result = queryEnergyText(energyType, ManagedString("local"), ManagedString(buffer));
+        ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
         int value = stringToNumber(result);
         return value;
     }
