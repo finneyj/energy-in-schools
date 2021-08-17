@@ -27,10 +27,16 @@ void PeridoRESTClient::onRadioPacket(MicroBitEvent)
 
         // If the request_id matches and outstanding request, process it.
         PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &b[0];
-        if (awaitingResponse && pkt->request_id == request_id && b.length() > 6)
+        if (awaitingResponse && pkt->request_id == request_id)
         {
-            ManagedString s(b.length()-6);
-            memcpy((void *)s.toCharArray(), &b[6], b.length()-6);
+            uint8_t *tmp = (uint8_t *)malloc(b.length());
+            memset(tmp, 'A', b.length());
+
+            ManagedString s((const char *)tmp, b.length());
+            memcpy((void *)s.toCharArray(), b.getBytes(), b.length());
+
+            free(tmp);
+
             response = s;
             awaitingResponse = false;
         }
@@ -49,6 +55,7 @@ void PeridoRESTClient::enable()
 PeridoRESTClient::PeridoRESTClient(MicroBitRadio& r, MICROBIT_MESSAGE_BUS_TYPE& b, NRF52Serial &s) : radio(r), radioTxRx(r), serial(s)
 {
     enabled = false;
+    nextTx = 0;
 
     // Attach event listeners to radio and serial interfaces
     b.listen(MICROBIT_ID_RADIO, MICROBIT_RADIO_EVT_DATAGRAM, this, &PeridoRESTClient::onRadioPacket);
@@ -59,6 +66,18 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     mutex.wait();
 
     enable();
+
+    // State variables
+    int timeout = 20000+microbit_random(500);
+    int quantum = 100;
+    int t = 0;
+
+    // Perform some rate limiting, in case kids busy loop...
+    while(system_timer_current_time() < nextTx)
+    {
+        serial.printf("RL...");
+        fiber_sleep(100+microbit_random(quantum));
+    }
 
     PacketBuffer p(request.length() + 7);
     PeridoBridgeSerialPacket *pkt = (PeridoBridgeSerialPacket *) &p[0];
@@ -72,10 +91,6 @@ ManagedString PeridoRESTClient::get(ManagedString request)
     strcpy((char *) &pkt->payload[2], (char *) request.toCharArray());
 
     awaitingResponse = true;
-
-    int timeout = 20000;
-    int quantum = 100;
-    int t = 0;
 
     while(awaitingResponse)
     {
@@ -95,6 +110,7 @@ ManagedString PeridoRESTClient::get(ManagedString request)
             t = 0;
     }
 
+    nextTx = system_timer_current_time() + PERIDO_REST_RATE_LIMIT;
     serial.printf("RESPONSE RECEIVED: %s\n", response.toCharArray());
     mutex.notify();
 

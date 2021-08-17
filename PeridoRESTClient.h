@@ -11,6 +11,8 @@
 #define MICROBIT_LOCK_TYPE FiberLock
 #endif
 
+#define PERIDO_REST_RATE_LIMIT      1000
+
 class PeridoRESTClient
 {
     MICROBIT_LOCK_TYPE mutex;
@@ -21,6 +23,7 @@ class PeridoRESTClient
     bool awaitingResponse;
     ManagedString response;
     bool enabled;
+    uint32_t nextTx;
 
     public:
 
