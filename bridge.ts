@@ -7,7 +7,7 @@ namespace peridobridge {
     /**
      * Launches 
      */
-    //% shim=bridge::enable
+    //% shim=peridobridge::enable
     export function enable(): number {
         return 0;
     }
