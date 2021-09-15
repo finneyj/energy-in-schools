@@ -10,9 +10,11 @@ namespace energymeter {
     let power = 0;          // approximation of the power measured in the last round.
     let scale = 100;        // scaling factor from uTeslas into Watts (approx).
     let threshold = 500;    // the threshold in Watts where the device is determines to be "on".
+    let zeroOffset = 250;   // readings below this value are rounded down to zero.
     let onState = false;    // true if the ME field is large enough to determine a device to be "on". False otherwise.
     let dataTrace = false;  // true if power data is being streamd to the serial port. flase otherwise. 
-    let enabled = false;
+    let enabled = false;    // true if an on-demand function has been invoked. false otherwise.
+    let configured = false; // true if the sensor sampling rate has been configured. false otherwise.
 
     function nop(){};
     let onPowerOnHandler = nop;
@@ -91,11 +93,26 @@ namespace energymeter {
         onPowerOffHandler = handler;
     }
 
+    /**
+     * Sets the sampling frequency of the magnetic sensor
+     * @param period the new sampling period in milliseconds
+     */
+    //% shim=energymeter::setSensorPeriod
+    function setSensorPeriod(period:number): number {
+        return 1;
+    }
+
     // Periodic function to reord changes in magnetometer data
     basic.forever(function () {
 
         if (enabled)
         {
+            if (!configured)
+            {
+                setSensorPeriod(10);
+                configured = true;
+            }
+
             let s = input.magneticForce(Dimension.Strength);
 
             if (min_field == 0) 
@@ -115,6 +132,9 @@ namespace energymeter {
             if (samples > 20)
             {
                 power = (max_field - min_field) *scale;
+                if (power <= zeroOffset)
+                    power = 0;
+
                 samples = 0;
                 max_field = 0;
                 min_field = 0;

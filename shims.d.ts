@@ -24,4 +24,8 @@ declare namespace energy {
 declare namespace weather {
 }
 
+declare namespace energymeter {
+}
+
+
 // Auto-generated. Do not edit. Really.

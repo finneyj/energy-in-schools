@@ -21,6 +21,7 @@
         "energy.cpp",
         "EnergyService.cpp",
         "EnergyService.h",
+        "power-meter.cpp",
         "InitService.cpp",
         "InitService.h",
         "IssService.cpp",

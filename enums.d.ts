@@ -40,6 +40,10 @@ declare namespace carbon {
 declare namespace energy {
 }
 
+declare namespace energymeter {
+}
+
+
 
     /**
      * share
