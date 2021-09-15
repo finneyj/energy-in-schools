@@ -9,10 +9,11 @@ namespace weather {
     //% help=weather/get-temperature
     //% weight=96
     //% blockId=get_place_temp
-    //% block="get|temperature|for %weatherLocationType | %location" blockGap=8
+    //% block="get|temperature|for %weatherLocationType | %location | %country" blockGap=8
+    //% country.defl="GB"
     //% inlineInputMode=inline
     //% shim=weather::getTemperature
-    export function getTemperature(weatherLocationType: WeatherLocationType, location: string) : string
+    export function getTemperature(weatherLocationType: WeatherLocationType, location: string, country: string) : string
     {
         return Math.floor(Math.random() * 25).toString();
     }
@@ -25,9 +26,10 @@ namespace weather {
     //% help=weather/get-wind-direction
     //% weight=96
     //% blockId=get_wind_dir
-    //% block="get|wind direction for %weatherLocationType | %location" blockGap=8
+    //% block="get|wind direction for %weatherLocationType | %location | %country" blockGap=8
+    //% country.defl="GB"
     //% shim=weather::getWindDirection
-    export function getWindDirection(weatherLocationType: WeatherLocationType, location: string) : string
+    export function getWindDirection(weatherLocationType: WeatherLocationType, location: string, country: string) : string
     {
         let directions = ["N", "NW", "NE","S","SE","SW","E","W"]
         return directions[Math.floor(Math.random() * 7)]
@@ -41,9 +43,10 @@ namespace weather {
     //% help=weather/get-weather-forecast
     //% weight=96
     //% blockId=get_forecast_now
-    //% block="get|weather forecast for %weatherLocationType | %location" blockGap=8
+    //% block="get|weather forecast for %weatherLocationType | %location | %country" blockGap=8
+    //% country.defl="GB"
     //% shim=weather::getWeatherForecast
-    export function getWeatherForecast(weatherLocationType: WeatherLocationType, location: string) : string
+    export function getWeatherForecast(weatherLocationType: WeatherLocationType, location: string, country: string) : string
     {
         let weather = ["overcast", "raining", "sunny", "snowing", "thunder"]
         return weather[Math.floor(Math.random() * 4)]
@@ -56,9 +59,10 @@ namespace weather {
       */
     //% help=weather/get-weather-forecast-tomorrow
     //% weight=96
-    //% blockId=get_forecast_tom block="get|tomorrows weather forecast for %weatherLocationType | %location" blockGap=8
+    //% blockId=get_forecast_tom block="get|tomorrow's weather forecast for %weatherLocationType | %location | %country" blockGap=8
+    //% country.defl="GB"
     //% shim=weather::getWeatherForecastTomorrow
-    export function getWeatherForecastTomorrow(weatherLocationType: WeatherLocationType, location: string)
+    export function getWeatherForecastTomorrow(weatherLocationType: WeatherLocationType, location: string, country: string)
     {
         let weather = ["overcast", "raining", "sunny", "snowing", "thunder"]
         return weather[Math.floor(Math.random() * 4)]

@@ -18,10 +18,12 @@ int WeatherService::setRoomHumidity(ManagedString room, int humidity) {
     return 0;
 }
 
-WeatherServiceForecastNow WeatherService::getForecastNow(int locationType, ManagedString location) {
+WeatherServiceForecastNow WeatherService::getForecastNow(int locationType, ManagedString location, ManagedString country) {
     ManagedString query = "/weather/";
     query = query + locationType;
-    query = query + "/" + location + "/forecastNow/";
+    query = query + "/" + location;
+    query = query + "/" + country;
+    query = query + "/forecastNow/";
 
     ManagedString res = radio.get(query);
 
@@ -33,10 +35,12 @@ WeatherServiceForecastNow WeatherService::getForecastNow(int locationType, Manag
     return ret;
 }
 
-WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(int locationType, ManagedString location) {
+WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(int locationType, ManagedString location, ManagedString country) {
     ManagedString query = "/weather/";
     query = query + locationType;
-    query = query + "/" + location + "/forecastTomorrow/";
+    query = query + "/" + location;
+    query = query + "/" + country;
+    query = query + "/forecastTomorrow/";
 
     ManagedString res = radio.get(query);
 
@@ -47,23 +51,27 @@ WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(int locationT
     return ret;
 }
 
-ManagedString WeatherService::getTemperature(int locationType, ManagedString location) {
+ManagedString WeatherService::getTemperature(int locationType, ManagedString location, ManagedString country) {
     ManagedString query = "/weather/";
     query = query + locationType;
-    query = query + "/" + location + "/temperature/";
+    query = query + "/" + location;
+    query = query + "/" + country;
+    query = query + "/temperature/";
 
     ManagedString res = radio.get(query);
 
     return PeridoUtil::getString(res, 0);
 }
 
-WeatherServiceWind WeatherService::getWind(int locationType, ManagedString location) {
+WeatherServiceWind WeatherService::getWind(int locationType, ManagedString location, ManagedString country) {
     ManagedString query = "/weather/";
     query = query + locationType;
-    query = query + "/" + location + "/wind/";
+    query = query + "/" + location;
+    query = query + "/" + country;
+    query = query + "/wind/";
     
     ManagedString res = radio.get(query);
-    
+
     WeatherServiceWind ret;
     ret.chill = PeridoUtil::getString(res, 0);
     ret.direction = PeridoUtil::getString(res, 1);
