@@ -1,6 +1,6 @@
 {
     "name": "energy-in-schools",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "Energy in Schools",
     "license": "MIT",
     "dependencies": {
