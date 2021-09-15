@@ -8,7 +8,7 @@
     wind = 3,
     nuclear = 4,
     hydro = 5,
-    biomas = 6,
+    biomass = 6,
     imports = 7,
     other = 8,
     }

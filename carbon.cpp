@@ -8,7 +8,7 @@ enum class GenerationMixType{
     wind = 3, 
     nuclear = 4, 
     hydro = 5, 
-    biomas = 6, 
+    biomass = 6, 
     imports = 7, 
     other = 8,
 };
@@ -21,7 +21,7 @@ enum class CarbonIndex{
     very_high = 4, 
 };
 
-static const char* const generationTypes[] = {"gas","coal","solar","wind","nuclear","hydro","biomas","imports","other"}; 
+static const char* const generationTypes[] = {"gas","coal","solar","wind","nuclear","hydro","biomass","imports","other"}; 
 static const char* const carbonIndexValueTypes[] = {"very_low","low","moderate","high","very_high"}; 
 
 /**
