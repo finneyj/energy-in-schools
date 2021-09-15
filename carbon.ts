@@ -79,7 +79,7 @@ namespace carbon {
     //% shim=carbon::queryCarbonGenerationMix
     export function queryCarbonGenerationMix(mixType : GenerationMixType): number
     {
-        if(mixType == GenerationMixType.biomas){
+        if(mixType == GenerationMixType.biomass){
             return Math.floor(Math.random() * 10) + 5;
         }
         if(mixType == GenerationMixType.coal){
