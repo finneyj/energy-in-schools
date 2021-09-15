@@ -132,8 +132,9 @@ namespace energy {
     }
 
     //%
-    int querySchoolEnergyFor(String schoolId, EnergyType energyType)
+    int querySchoolEnergyFor(String schoolId)
     {
+        EnergyType energyType = EnergyType::electricity;
         ManagedString result = queryEnergyText(energyType,MSTR(schoolId),"");
         int value = stringToNumber(result);
         return value;
@@ -141,12 +142,13 @@ namespace energy {
     }
 
     //%
-    int querySchoolEnergyAgo(String schoolId, EnergyType energyType, int units, TimeType period)
+    int querySchoolEnergyAgo(String schoolId, int units, TimeType period)
     {
         char buffer[20];
         memset(buffer,0,sizeof(buffer));
         sprintf(buffer,"%s/%d", TimeTypeNames[(int)period], units);
 
+        EnergyType energyType = EnergyType::electricity;
         ManagedString result = queryEnergyText(energyType, MSTR(schoolId), ManagedString(buffer));
         int value = stringToNumber(result);
         return value;

@@ -6,18 +6,19 @@ namespace energy {
 
     //% weight=96
     //% blockId=energy_queryOtherSchool
-    //% block="get school %school %energyType usage"
+    //% block="get school %school instantaneous power (W)"
     //% shim=energy::querySchoolEnergyFor
-    export function querySchoolEnergyFor(school: string, energyType: EnergyType): number {
+    export function querySchoolEnergyFor(school: string): number {
         return Math.floor(Math.random() * 25) + 100;
     }
 
     //% weight=97
     //% blockId=energy_querySchoolEnergyPeriod
     //% inlineInputMode=inline
-    //% block="get school %school %energyType usage for %units %period ago"
+    //% block="get school %school electricity usage (Wh) for %units %period ago"
+    //% units.min=1 units.defl=1
     //% shim=energy::querySchoolEnergyAgo
-    export function queryHistoricSchoolEnergyFor(school: string, energyType: EnergyType, units: number, period: TimeType): number {
+    export function queryHistoricSchoolEnergyFor(school: string, units: number, period: TimeType): number {
         return Math.floor(Math.random() * 25) + 100;
     }
 }
