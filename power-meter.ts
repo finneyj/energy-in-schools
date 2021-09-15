@@ -15,6 +15,7 @@ namespace energymeter {
     let dataTrace = false;  // true if power data is being streamd to the serial port. flase otherwise. 
     let enabled = false;    // true if an on-demand function has been invoked. false otherwise.
     let configured = false; // true if the sensor sampling rate has been configured. false otherwise.
+    let valid = false;      // true when the first valid sample has been captured.
 
     function nop(){};
     let onPowerOnHandler = nop;
@@ -41,7 +42,7 @@ namespace energymeter {
     export function getElectricalPowerUsage()
     {
         enabled = true;
-        while (power == 0)
+        while (!valid)
             basic.pause(100);
 
         return power;
@@ -138,6 +139,7 @@ namespace energymeter {
                 samples = 0;
                 max_field = 0;
                 min_field = 0;
+                valid = true;
 
                 if (power > threshold)
                 {   
