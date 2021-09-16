@@ -29,9 +29,10 @@ WeatherServiceForecastNow WeatherService::getForecastNow(int locationType, Manag
 
     WeatherServiceForecastNow ret;
 
-    ret.high = PeridoUtil::getInteger(res, 0);
-    ret.low = PeridoUtil::getInteger(res, 1);
-    ret.text = PeridoUtil::getString(res, 2);
+    ret.text = PeridoUtil::getString(res, 0);
+    ret.high = 0;
+    ret.low = 0;
+    
     return ret;
 }
 
@@ -45,9 +46,9 @@ WeatherServiceForecastTomorrow WeatherService::getForecastTomorrow(int locationT
     ManagedString res = radio.get(query);
 
     WeatherServiceForecastTomorrow ret;
-    ret.high = PeridoUtil::getInteger(res, 0);
-    ret.low = PeridoUtil::getInteger(res, 1);
-    ret.text = PeridoUtil::getString(res, 2);
+    ret.text = PeridoUtil::getString(res, 0);
+    ret.high = 0;
+    ret.low = 0;
     return ret;
 }
 
@@ -73,8 +74,8 @@ WeatherServiceWind WeatherService::getWind(int locationType, ManagedString locat
     ManagedString res = radio.get(query);
 
     WeatherServiceWind ret;
-    ret.chill = PeridoUtil::getString(res, 0);
-    ret.direction = PeridoUtil::getString(res, 1);
-    ret.speed = PeridoUtil::getString(res, 2);
+    ret.direction = PeridoUtil::getString(res, 0);
+    ret.chill = "";
+    ret.speed = "";
     return ret;
 }
