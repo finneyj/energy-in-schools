@@ -15,12 +15,12 @@ using namespace codal;
 const char* SCHOOL_ID = "820CA";
 const char* HUB_ID = "SyHbe";
 
-const MicroBitImage smile_small = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 0, 0\n0, 0, 0, 0, 0\n255, 0, 0, 0, 255\n0, 255, 255, 255, 0\n");
-const MicroBitImage smile_big = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 0, 0\n0, 0, 0, 0, 0\n255, 255, 255, 255, 255\n0, 255, 255, 255, 0\n");
+const MicroBitImage smile_small = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n255, 0, 0, 0, 255\n0, 255, 255, 255, 0\n");
+const MicroBitImage smile_big = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n255, 255, 255, 255, 255\n0, 255, 255, 255, 0\n");
 const MicroBitImage neutral_small = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n0, 255, 255, 255, 0\n0, 255, 255, 255, 0\n");
 const MicroBitImage neutral_big = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n255, 255, 255, 255, 255\n0, 0, 0, 0, 0\n");
-const MicroBitImage sad_small = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 0, 0\n0, 0, 0, 0, 0\n0, 255, 255, 255, 0\n255, 0, 0, 0, 255\n");
-const MicroBitImage sad_big = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 0, 0\n0, 0, 0, 0, 0\n0, 255, 255, 255, 0\n255, 255, 255, 255, 255\n");
+const MicroBitImage sad_small = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n0, 255, 255, 255, 0\n255, 0, 0, 0, 255\n");
+const MicroBitImage sad_big = MicroBitImage("0, 0, 0, 0, 0\n0, 255, 0, 255, 0\n0, 0, 0, 0, 0\n0, 255, 255, 255, 0\n255, 255, 255, 255, 255\n");
 
 void PeridoBridge::sendHelloPacket()
 {
@@ -45,7 +45,7 @@ void PeridoBridge::sendHelloPacket()
 void PeridoBridge::handleHelloPacket(PacketBuffer b)
 {
     uint32_t status;
-    memcpy(&status, &b[5], 4);
+    memcpy(&status, &b[6], 4);
 
     display.clear();
 
@@ -183,7 +183,7 @@ void PeridoBridge::onSerialPacket(MicroBitEvent)
     if (len > MICROBIT_RADIO_MAX_PACKET_SIZE)
         len = MICROBIT_RADIO_MAX_PACKET_SIZE;
 
-    if (b[4] == REQUEST_TYPE_HELLO)
+    if ((b[4] & REQUEST_TYPE_HELLO) == REQUEST_TYPE_HELLO)
         handleHelloPacket(b);
     else
         radioTxRx.send(b, len);
